@@ -1,6 +1,6 @@
 import joi from 'joi';
 import bcrypt from 'bcrypt';
-import db from './db';
+import db from './db.js';
 import { v4 as uuid } from 'uuid';
 
 export async function compareUserData(req, res) {
