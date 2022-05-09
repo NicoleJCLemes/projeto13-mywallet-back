@@ -1,8 +1,13 @@
-export async function withdrawal(req, res) {
-    const {amount, description} = req.body;
-    const {authorization} = req.header;
+import db from "./db.js";
+import dayjs from "dayjs";
 
-    const token = authorization?.replace("Bearer ", "");
+export async function withdrawal(req, res) {
+    console.log(amount, description)
+    const {amount, description} = req.body;
+    const {authorization} = req.headers;
+    let date = dayjs().format('DD/MM');
+
+    const token = authorization?.replace("Bearer ", ""); // fazer funcionar o post
 
     if (!token) {
         res.sendStatus(401);
@@ -22,10 +27,26 @@ export async function withdrawal(req, res) {
         db.collection("withdrawals").insertOne({
             userId: session.userId,
             amount,
-            description
+            description,
+            date
         });
         res.status(200).send("Saque retirado com sucesso!");
+
     } else {
         res.sendStatus(401);
+
     }
+}
+
+export async function getAllWithdrawals(req, res) {
+
+    try {
+        const withdrawals = await db.collection("withdrawals").find().toArray();
+        res.status(200).send(withdrawals);
+
+    } catch (error) {
+        res.status(500).send("Não foi possível obter as informações");
+
+    }
+
 }

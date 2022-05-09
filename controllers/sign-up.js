@@ -45,9 +45,11 @@ export async function postUserData(req, res) {
             console.log("Usuário criado");
             return
         }
+
         
     } catch (error) {
         res.sendStatus(500);
         console.log("Erro ao registrar usuário");
+
     }
 }
