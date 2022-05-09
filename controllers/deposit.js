@@ -1,11 +1,10 @@
 import db from "./db.js";
 import dayjs from "dayjs";
 
-export async function deposit(res, req) {
-    console.log(req.body)
+export async function deposit(req, res) {
     const {amount, description} = req.body;
     const {authorization} = req.headers;
-    let date = dayjs().format('DD:MM');
+    let date = dayjs().format('DD/MM');
 
     const token = authorization?.replace("Bearer ", ""); // fazer funcionar o post
 

@@ -47,7 +47,7 @@ export async function deleteInfo(req, res) {
 
     try {
 		const sessions = db.collection("sessions");
-		await sessions.deleteOne({ userId: new ObjectId(userId) });
+		await sessions.deleteOne({userId});
 				
 		res.sendStatus(200);
         console.log("Deslogado com sucesso")
