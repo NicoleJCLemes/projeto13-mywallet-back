@@ -16,6 +16,6 @@ app.post("/", compareUserData);
 
 app.post("/deposit", deposit);
 
-app.post("withdrawal", withdrawal);
+app.post("/withdrawal", withdrawal);
 
 app.listen(5000, () => console.log("server is running on port 5000"));
