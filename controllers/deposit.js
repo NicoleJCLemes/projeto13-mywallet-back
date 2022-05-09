@@ -6,7 +6,7 @@ export async function deposit(req, res) {
     const {authorization} = req.headers;
     let date = dayjs().format('DD/MM');
 
-    const token = authorization?.replace("Bearer ", ""); // fazer funcionar o post
+    const token = authorization?.replace("Bearer ", "");
 
     try {
         if (!token) {
@@ -44,8 +44,24 @@ export async function deposit(req, res) {
 
 export async function getAllDeposits(req, res) {
 
+    const {authorization} = req.headers;
+    const token = authorization?.replace("Bearer ", "");
+
     try {
-        const deposits = await db.collection("deposits").find().toArray();
+
+        if (!token) {
+            res.sendStatus(401);
+        }
+    
+        const session = await db.collection("sessions").findOne({token});
+    
+        if (!session) {
+            res.sendStatus(401);
+        }
+
+        const deposits = await db.collection("deposits").find({
+            userId: session.userId
+        }).toArray();
         res.status(200).send(deposits);
 
     } catch (error) {

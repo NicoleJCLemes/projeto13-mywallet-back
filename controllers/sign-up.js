@@ -4,7 +4,6 @@ import db from './db.js';
 
 export async function postUserData(req, res) {
     
-    //const user = req.body;
     const {name, email, password, passwordConfirmed} = req.body;
 
     const userSchema = joi.object({

@@ -27,4 +27,4 @@ app.get("/withdrawal", getAllWithdrawals);
 
 app.delete("/:userId", deleteInfo);
 
-app.listen(5000, () => console.log("server is running on port 5000"));
+app.listen(process.env.PORT, () => console.log("server is running on port " + process.env.PORT));

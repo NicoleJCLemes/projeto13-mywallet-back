@@ -31,10 +31,8 @@ export async function withdrawal(req, res) {
                 date
             });
             res.status(200).send("Saque retirado com sucesso!");
-    
         } else {
             res.sendStatus(401);
-    
         }
     } catch (error) {
         res.sendStatus(500);
@@ -45,13 +43,28 @@ export async function withdrawal(req, res) {
 
 export async function getAllWithdrawals(req, res) {
 
+    const {authorization} = req.headers;
+    const token = authorization?.replace("Bearer ", "");
+
     try {
-        const withdrawals = await db.collection("withdrawals").find().toArray();
+
+        if (!token) {
+            res.sendStatus(401);
+        }
+    
+        const session = await db.collection("sessions").findOne({token});
+    
+        if (!session) {
+            res.sendStatus(401);
+        }
+
+        const withdrawals = await db.collection("withdrawals").find({
+            userId: session.userId
+        }).toArray();
         res.status(200).send(withdrawals);
 
     } catch (error) {
         res.status(500).send("Não foi possível obter as informações");
-
     }
 
 }
